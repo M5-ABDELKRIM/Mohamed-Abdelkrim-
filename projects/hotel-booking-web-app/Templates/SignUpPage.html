@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Signup.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+
+<body>
+
+<!-- Signup Button Container -->
+<div class="signup-container">
+    
+    <!-- Header -->
+    <h1>Create an Account</h1>
+
+    <!-- Signup form -->
+    <form action="/SignUpPage" method="POST">
+        
+        <!-- Full Name Field -->
+        <div class="form-group">
+            <label for="full_name">Full Name</label>
+            <input type="text" id="full_name" name="full_name" required>
+        </div>
+        
+        <!-- Email Field -->
+        <div class="form-group">                   
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+
+        <!-- Signup button -->
+        <div class="form-group">
+            <button type="submit" class="form-group">Sign Up</button>
+        </div>
+    </form>
+
+    <!-- Login button -->
+    <p>Already have an account? <a href="{{ url_for('Loginpage') }}">Log In</a></p>
+
+</div>
+</body>
+</html>

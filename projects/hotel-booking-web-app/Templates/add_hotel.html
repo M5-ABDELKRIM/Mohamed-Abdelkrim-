@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Hotel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_hotel.css') }}"> <!-- Link to admin.css -->
+
+</head>
+<body>
+    <h2>Add Hotel</h2>
+    <form method="POST" action="{{ url_for('add_hotel') }}">
+        <label for="city">City:</label><br>
+        <input type="text" id="city" name="city" required><br>
+        <label for="capacity">Capacity:</label><br>
+        <input type="number" id="capacity" name="capacity" required><br>
+        <label for="number_of_rooms">Number of Rooms:</label><br>
+        <input type="number" id="number_of_rooms" name="number_of_rooms" required><br>
+        <label for="rate_gbp">Rate in GBP:</label><br>
+        <input type="number" id="rate_gbp" name="rate_gbp" required><br>
+        <label for="peak_season_rate">Peak Season Rate:</label><br>
+        <input type="number" id="peak_season_rate" name="peak_season_rate" required><br>
+        <label for="off_peak_season_rate">Off Peak Season Rate:</label><br>
+        <input type="number" id="off_peak_season_rate" name="off_peak_season_rate" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    
+</body>
+</html>

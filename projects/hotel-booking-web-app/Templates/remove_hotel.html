@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Hotel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='remove_hotel.css') }}"> <!-- Link to remove_hotel.css -->
+</head>
+<body>
+    <h2>Remove Hotel</h2>
+    <form method="POST" action="{{ url_for('remove_hotel') }}">
+        <label for="hotel">Select Hotel to Remove:</label><br>
+        <select id="hotel" name="hotel">
+            {% for hotel in hotels %}
+                <option value="{{ hotel }}">{{ hotel }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="submit" value="Remove">
+    </form>
+</body>
+</html>

@@ -1,0 +1,117 @@
+body {
+  background-image: url(https://theoldsessionshouse.com/wp-content/uploads/2021/06/OSH-11-SM.jpg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  margin: 0;
+}
+.hone{
+  top: 2%;
+  text-align: center;
+  color: rgb(34, 81, 85);
+}
+.button-container {
+  position: absolute;
+  top: 0;
+  left: 32.5%;
+  width: 35%;
+  height: 100%;
+  background-color: rgba(203, 226, 228, 0.901);
+  border-left-style:hidden;
+}
+
+.buttonone, .buttontwo, .buttonthree, .buttonfour, .buttonfive {
+  position: absolute;
+}
+
+.buttonone {
+  top: 12%;
+  left: 5%;
+  background-color: rgb(34, 81, 85);
+  border-radius: 10px;
+  height: 25px;
+  text-wrap:pretty;
+}
+
+.buttontwo {
+  top: 20%;
+  left: 5%;
+  background-color: rgb(34, 81, 85);
+  height: 35px;
+  border-radius: 5px;
+  text-align:center;
+}
+
+.buttonthree {
+  top: 28%;
+  left: 5%;
+  height:35px;
+  border-radius: 5px;
+  background-color: rgb(34, 81, 85);
+  
+}
+
+.buttonfour {
+  top: 36%;
+  left: 5%;
+  height: 25px;
+  border-radius: 5px;
+}
+
+.buttonfive {
+  top: 44%;
+  left: 5%;
+  height: 25px;
+  border-radius: 5px;
+  
+}
+.buttonsix{
+  top: 60% ;
+  width: 8%;
+  height:5%;
+  left: 45%;
+  border-radius: 10px;
+  border-color: rgb(55, 130, 137);
+  background-color: rgb(55, 130, 137);
+  box-shadow: rgb(97, 88, 88) 2px 2px 2px ;
+  color: white;
+  position: fixed;
+
+
+}
+.split-button {
+  display: inline-block;
+  position: relative;
+}
+
+.split-button .primary-button {
+  background-color:  rgb(34, 81, 85);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.split-button .options {
+  display: none;
+  position: absolute;
+  background-color:rgb(34, 81, 85);
+  border-radius: 5px;
+  min-width: 160px;
+}
+
+.split-button .option {
+  display: block;
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.split-button .options.active {
+  display: block;
+}
+
+

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='view_hotel.css') }}"> <!-- Link to admin.css -->
+
+    <title>View Hotels</title>
+  
+</head>
+<body>
+    <div class="container">
+        <h2>List of Hotels</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Capacity</th>
+                    <th>Number of Rooms</th>
+                    <th>Rate (GBP)</th>
+                    <th>Peak Season Rate</th>
+                    <th>Off Peak Season Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hotel in hotels %}
+                <tr>
+                    <td>{{ hotel[0] }}</td>
+                    <td>{{ hotel[1] }}</td>
+                    <td>{{ hotel[2] }}</td>
+                    <td>{{ hotel[3] }}</td>
+                    <td>{{ hotel[4] }}</td>
+                    <td>{{ hotel[5] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

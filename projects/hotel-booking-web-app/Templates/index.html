@@ -1,0 +1,33 @@
+{%extends 'base.html'%}
+
+{%block head %}
+
+
+{%endblock%}
+<link rel=" stylesheet"href ="{{url_for('static',filename='main.css')}}">
+
+
+{%block body %}
+<div class ="content">
+  <body>task Master<body>
+
+  <table>
+    <tr>
+      <th>task</th>
+      <th>Added</th>
+      <th>Actions</th>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>
+        <a href="">delete</a>
+        <br>
+        <a href="">update</a>
+      </td>
+
+    </tr>
+
+  </table>
+</div>
+{%endblock%}

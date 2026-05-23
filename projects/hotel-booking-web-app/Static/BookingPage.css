@@ -1,0 +1,117 @@
+body {
+  background-image: url("BookingPageimg.jpg");
+  background-repeat: no-repeat;
+  background-size: 100vw 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.button-container {
+  width: 100vw; /* Set width to match the background image */
+  max-width: 600px;
+  height: 95vh;
+  margin: 0 auto 50px;
+  background-color: hsl(245, 6%, 59%);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.booking-details {
+  text-align: left;
+}
+
+.booking-details h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.booking-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.booking-details ul li {
+  margin-bottom: 8px;
+}
+
+.booking-details ul li strong {
+  font-weight: bold;
+}
+
+
+.cancelbutton {
+  top: 350px;
+  width: 10%;
+  height: 5%;
+  left: 34%; 
+  border-radius: 10px;
+  border-color: rgb(55, 130, 137);
+  background-color: rgb(55, 130, 137);
+  box-shadow: white;
+  color: white;
+  position: fixed;
+}
+
+.alterbutton {
+  top: 400px;
+  width: 10%;
+  height: 5%;
+  left: 34%; 
+  border-radius: 10px;
+  border-color: rgb(55, 130, 137);
+  background-color: rgb(55, 130, 137);
+  box-shadow: white;
+  color: white;
+  position: fixed;
+}
+.paymentbutton{
+  top:450px;
+  width: 10%;
+  height: 5%;
+  left: 34%; 
+  border-radius: 10px;
+  border-color: rgb(55, 130, 137);
+  background-color: rgb(55, 130, 137);
+  box-shadow: white;
+  color: white;
+  position: fixed;
+}
+/* Media Query for smaller screens */
+@media only screen and (max-width: 600px) {
+  .button-container {
+    margin-left: 2%;
+    width: 96%;
+  }
+  
+  input,
+  select,
+  .numrooms input,
+  .roomtype select {
+    width: 100%;
+  }
+}
+/* Media Query for larger screens */
+@media only screen and (min-width: 601px) {
+  .alterbutton {
+    width: 10%;
+    left: 31%; 
+  }  
+  .cancelbutton {
+    width: 10%;
+    left: 31%; 
+  } 
+  .button-container {
+    margin-left: 30%;
+    width: 32.5%;
+  }
+ .paymentbutton {
+  width: 10%;
+  left: 31%; }
+}

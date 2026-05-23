@@ -1,0 +1,103 @@
+body {
+  background-image: url("background.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 100vw 100vh;
+  margin: 0;
+}
+
+.hone {
+  text-align: center;
+  color: rgb(34, 81, 85);
+}
+
+.button-container {
+  margin-left: 500px;
+  width: 32.5%;
+  height: 1260px;
+  padding: 10px;
+  background-color: rgba(203, 226, 228, 0.901);
+  border-left-style: hidden;
+}
+
+input {
+  width: calc(100% - 30px); 
+  padding: 10px;
+  box-sizing: border-box;
+  border-style: none;
+  margin-top: 5px;
+  margin-left: 15px;
+}
+
+select {
+  width: calc(100% - 30px); 
+  padding: 10px;
+  box-sizing: border-box;
+  border-style: none;
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+.numrooms input {
+  width: calc(100% - 30px);
+  margin-left: 15px;
+  padding-left: 15px; 
+  height: 35px;
+  border-style: none;
+  margin-top: 5px;
+}
+
+.roomtype select {
+  width: calc(100% - 30px);
+  margin-top: 20px;
+}
+
+p {
+  font-size: medium;
+}
+
+.buttonsix {
+  top: 600px;
+  width: 30%;
+  height: 5%;
+  left: 35%; 
+  border-radius: 10px;
+  border-color: rgb(55, 130, 137);
+  background-color: rgb(55, 130, 137);
+  box-shadow: white;
+  color: white;
+  position: fixed;
+}
+
+/* Media Query for smaller screens */
+@media only screen and (max-width: 600px) {
+  .button-container {
+    margin-left: 2%;
+    width: 96%;
+  }
+  
+  input,
+  select,
+  .numrooms input,
+  .roomtype select {
+    width: 100%;
+  }
+
+  .buttonsix {
+    width: 90%;
+    left: 5%;
+  }
+}
+
+/* Media Query for larger screens */
+@media only screen and (min-width: 601px) {
+  .buttonsix {
+    width: 15%;
+    left: 40%;
+  }  
+  .button-container {
+    margin-left: 30%;
+    width: 32.5%;
+  }
+}

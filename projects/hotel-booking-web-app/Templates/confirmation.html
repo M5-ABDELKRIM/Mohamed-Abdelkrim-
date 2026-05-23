@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmation</title>
+  <!-- Link to CSS file -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='BookingPage.css') }}">
+  <!-- Link to JavaScript file -->
+  <script src="{{ url_for('static', filename='payment.js') }}"></script>
+</head>
+<body>
+  <!-- Confirmation Container -->
+  <div class="button-container">
+    <!-- Header -->
+    <div class="hone">
+      <h1>Booking Confirmation</h1>
+    </div>
+    <!-- Booking Details -->
+    <div class="booking-details">
+      <h2>Thank you for booking with us!</h2>
+      <p>Your booking details:</p>
+      <table>
+        <tr>
+          <th>Booking ID</th>
+          <th>Customer ID</th>
+          <th>Check-In Date</th>
+          <th>Check-Out Date</th>
+          <th>City</th>
+          <th>Room Type</th>
+        </tr>
+        <tr>
+          <td>{{ booking_details[0] }}</td>
+          <td>{{ booking_details[1] }}</td>
+          <td>{{ booking_details[2] }}</td>
+          <td>{{ booking_details[3] }}</td>
+          <td>{{ booking_details[4] }}</td>
+          <td>{{ booking_details[5] }}</td>
+        </tr>
+      </table>
+      <p>Booking Price: {{ booking_price }}</p>
+      
+      <!-- Cancel Booking Button -->
+      <form action="{{ url_for('cancel_booking') }}" method="post">
+        <input type="hidden" name="booking_id" value="{{ booking_details[0] }}">
+        <button type="submit" class="cancelbutton">Cancel Booking</button>
+      </form>
+
+      <!-- Alter Booking Button -->
+      <form action="{{ url_for('alter_booking', booking_id=booking_details[0]) }}" method="get">
+        <button type="submit" class="alterbutton">Alter Booking</button>
+      </form>
+
+      <!-- Payment Button -->
+      <button onclick="showPaymentPopup()" class="paymentbutton">Make Payment</button>
+    </div>
+  </div>
+</body>
+<script>// payment.js
+
+  function showPaymentPopup() {
+    // Display a pop-up message asking for card details
+    var cardNumber = prompt("Enter your card number:");
+    var expiryDate = prompt("Enter the expiry date:");
+    var cvv = prompt("Enter the CVV:");
+  
+    // You can perform further actions here, such as sending the card details to the server for processing
+  }
+  </script>
+</html>

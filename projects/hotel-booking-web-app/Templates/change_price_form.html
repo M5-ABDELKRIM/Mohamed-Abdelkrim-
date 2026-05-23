@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Price</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}"> <!-- Link to admin.css -->
+</head>
+<body>
+    <h2>Change Price</h2>
+
+    <form method="POST" action="{{ url_for('change_price_for') }}">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+        <label for="rate_gbp">Rate GBP:</label>
+        <input type="text" id="rate_gbp" name="rate_gbp" required>
+        <label for="peak_season_rate">Peak Season Rate:</label>
+        <input type="text" id="peak_season_rate" name="peak_season_rate" required>
+        <label for="off_peak_season_rate">Off Peak Season Rate:</label>
+        <input type="text" id="off_peak_season_rate" name="off_peak_season_rate" required>
+        <button type="submit">Change Price</button>
+    </form>
+</body>
+</html>

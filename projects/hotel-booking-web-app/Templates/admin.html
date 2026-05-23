@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}"> <!-- Link to admin.css -->
+</head>
+<body>
+    <h2>Admin Panel</h2>
+
+    <!-- Add Hotel Form -->
+    <form method="GET" action="{{ url_for('add_hotel_form') }}">
+        <button type="submit">Add Hotel</button>
+    </form>
+
+    <!-- Remove Hotel Form -->
+    <form method="GET" action="{{ url_for('remove_hotel_form') }}">
+        <button type="submit">Remove Hotel</button>
+    </form>
+
+    <!-- View Hotels Button -->
+    <form method="GET" action="{{ url_for('view_hotels') }}">
+        <button type="submit">View Hotels</button>
+    </form>
+
+    <!-- View Bookings Button -->
+    <form method="GET" action="{{ url_for('view_bookings') }}">
+        <button type="submit">View Bookings</button>
+    </form>
+
+    <!-- Change Price Form -->
+    <h3 style="text-align: center;">Change Price</h3> <!-- Moved the heading here -->
+    <form method="POST" action="{{ url_for('change_price') }}" style="max-width: 600px; margin: 10px auto; padding: 20px; background-color: #a2a5bde5; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.108);">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+        <label for="rate_gbp">Rate GBP:</label>
+        <input type="text" id="rate_gbp" name="rate_gbp" required>
+        <label for="peak_season_rate">Peak Season Rate:</label>
+        <input type="text" id="peak_season_rate" name="peak_season_rate" required>
+        <label for="off_peak_season_rate">Off Peak Season Rate:</label>
+        <input type="text" id="off_peak_season_rate" name="off_peak_season_rate" required>
+        <button type="submit">Change Price</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='welcomepage.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>welcomepage</title>
+</head>
+<body>
+  <!-- Button Container -->
+  <div class="button-container">
+    <div class="hone">
+      <!-- Header -->
+      <h1>Welcome to Booker</h1>
+    </div>
+    <!-- Booking Form -->
+    <form method="POST" action="{{ url_for('book_room') }}">
+      <!-- Location Button -->
+      <p>Location</p>    
+      <div class="destination">
+        <select name="location" id="location" class="buttonone">
+          <option value disabled selected> Select</option>
+          <option value="Aberdeen">Aberdeen </option>
+          <option value="Belfast">Belfast</option>
+          <option value="Bristol">Bristol</option>
+          <option value="Cardiff">Cardiff</option>
+          <option value="Edinburgh">Edinburgh</option>
+          <option value="London">London</option>
+          <option value="Manchester">Manchester</option>
+          <option value="New Castle">New Castle</option>
+          <option value="Norwich">Norwich</option>
+          <option value="Nottingham">Nottingham</option>
+          <option value="Oxford">Oxford</option>
+          <option value="Plymouth">Plymouth</option>
+          <option value="Swansea">Swansea</option>
+          <option value="Bournemouth">Bournemouth</option>
+          <option value="Kent">Kent</option>
+        </select>
+      </div>
+      <!-- Check-In Button -->
+      <p>Check-In</p>
+      <div class="checkin">
+        <label for="checkin"></label>
+        <input type="date" placeholder="Check-In" name="checkin">
+      </div>
+      <!-- Check-Out Button -->
+      <p>Check-Out</p>      
+      <div class="checkout">
+        <label for="checkout"></label>
+        <input type="date" placeholder="Check-Out" name="checkout">
+      </div>
+      <!-- Number of Rooms Button -->
+      <p>Number of rooms</p>      
+      <div class="numrooms">
+        <input type="number" placeholder="Rooms" id="rooms" name="rooms">
+      </div>
+      <!-- Room Type Button -->
+      <div class="roomtype">
+        <label for="roomtype">Room Type</label><br>
+        <select name="roomtype" id="roomtype" class="roomtype">
+          <option value disabled selected>Select Room Type</option>
+          <option value="Standardroom">Standard Room</option>
+          <option value="Double Room">Double Room</option>
+          <option value="Family">Family</option>
+        </select>
+      </div>          
+      <!-- Book Now Button -->
+      <div>
+        <button type="submit" class="buttonsix">BOOK NOW</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
