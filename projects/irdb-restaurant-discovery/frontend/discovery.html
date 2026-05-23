@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IRDb - Discovery</title>
+  <link rel="stylesheet" href="/frontend/common.css" />
+</head>
+<body class="page-app">
+  <div class="container">
+    <main class="page-shell">
+      <div class="top-utility">
+        <a href="/discovery" class="brand-home" aria-label="Go to discovery">IRDb</a>
+        <div class="utility-actions">
+          <button id="appearanceToggleBtn" class="utility-icon-btn" type="button" aria-label="Toggle appearance">Dark</button>
+          <div class="account-menu">
+            <button type="button" class="account-trigger" aria-label="Open account menu"><span class="account-trigger-icon" aria-hidden="true"></span></button>
+            <div class="account-panel">
+              <a href="/profile" id="profileLink">Profile</a>
+              <a href="/admin-queue" id="adminQueueLink" class="hidden">Admin Queue</a>
+              <button id="logoutBtn" class="linkbtn" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <header class="page-header">
+        <div>
+          <h1 class="page-title">Discover restaurants through real experiences, not paid hype.</h1>
+          <p class="section-copy">IRDb was built to make restaurant discovery feel more honest. Every review on the platform comes from a real user and goes through moderation before it appears, so what you read is genuine, checked, and worth trusting.</p>
+        </div>
+      </header>
+
+      <section class="hero-card" style="margin-bottom: 22px;">
+        <h2>Search the directory</h2>
+        <p class="section-copy">Use one clean search bar, then refine with sort, cuisine, and menu availability only when you need them.</p>
+
+        <div class="discovery-panel">
+          <div class="search-shell search-shell-wide search-shell-actions">
+            <input id="q" aria-label="Search restaurants" />
+            <div class="search-actions">
+              <a href="/map" class="menu-link-btn menu-link-btn-soft">Map view</a>
+              <button id="filterBtn" type="button" class="featured-secondary">Sort &amp; filter</button>
+              <button id="searchBtn" class="utility-icon-btn search-icon-btn" type="button" aria-label="Search">
+                <span class="search-icon" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+
+          <div id="filterPopover" class="filter-popover hidden">
+            <div class="field-shell">
+              <span>Sort</span>
+              <div id="sortOptions" class="option-list">
+                <button type="button" class="option-chip active" data-sort-value="name_asc">A-Z</button>
+                <button type="button" class="option-chip" data-sort-value="rating_desc">Top rated</button>
+                <button type="button" class="option-chip" data-sort-value="fhrs_desc">FHRS</button>
+              </div>
+            </div>
+
+            <div class="field-shell">
+              <span>Cuisine</span>
+              <div id="cuisineList" class="filter-list" role="listbox" aria-label="Cuisine options">
+                <button type="button" class="filter-list-item active" data-cuisine-id="">All cuisines</button>
+              </div>
+            </div>
+
+            <label class="toggle-chip toggle-chip-soft">
+              <input id="hasMenuOnly" type="checkbox" checked />
+              <span>Menu available only</span>
+            </label>
+
+            <div class="filter-actions">
+              <button id="applyFiltersBtn" type="button">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div id="pageInfo" class="muted"></div>
+        </div>
+      </section>
+
+      <section class="featured-band">
+        <div class="featured-stage" id="featuredStage">
+          <div class="muted">Loading featured restaurants...</div>
+        </div>
+      </section>
+
+      <section>
+        <div id="list" class="grid"></div>
+      </section>
+
+      <div class="row" style="justify-content: space-between;">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+      </div>
+    </main>
+  </div>
+
+  <div id="restaurantModal" class="modal hidden">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <button id="closeModalBtn" class="close-btn" type="button">x</button>
+      <div id="modalBody">
+        <div class="muted">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/frontend/discovery.js"></script>
+</body>
+</html>

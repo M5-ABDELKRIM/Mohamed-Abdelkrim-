@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Editor
+.vscode/
+.idea/
+
+# Logs / databases / private files
+*.log
+*.db
+*.sqlite
+
+# Block real credential files, but allow fake demo restaurant accounts
+*credentials*.csv
+*account_credentials*.csv
+!demo_restaurant_accounts.csv

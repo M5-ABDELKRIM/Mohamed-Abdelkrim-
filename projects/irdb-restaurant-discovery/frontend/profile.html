@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IRDb - Profile</title>
+  <link rel="stylesheet" href="/frontend/common.css" />
+</head>
+<body class="page-app">
+  <div class="container">
+    <main class="page-shell">
+      <div class="top-utility">
+        <a href="/discovery" class="brand-home" aria-label="Go to discovery">IRDb</a>
+        <div class="utility-actions">
+          <button id="appearanceToggleBtn" class="utility-icon-btn" type="button" aria-label="Toggle appearance">Dark</button>
+          <a href="/map" class="menu-link-btn menu-link-btn-soft utility-map-link">Map</a>
+          <div class="account-menu">
+            <button type="button" class="account-trigger" aria-label="Open account menu"><span class="account-trigger-icon" aria-hidden="true"></span></button>
+            <div class="account-panel">
+              <a href="/profile">Profile</a>
+              <a href="/admin-queue" id="adminQueueLink" class="hidden">Admin Queue</a>
+              <button id="logoutBtn" class="linkbtn" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <header class="page-header">
+        <div>
+          <div class="kicker" style="background: rgba(213, 87, 94, 0.16); color: var(--olive); border-color: transparent;">Account</div>
+          <h1 class="page-title">Your activity at a glance.</h1>
+          <p class="section-copy">Track your reviews, moderation status, and favourite places without leaving the main platform.</p>
+        </div>
+      </header>
+
+      <section class="stats-grid" style="margin-bottom: 18px;">
+        <div class="stat-card profile-stat-card profile-account-card">
+          <div class="profile-stat-label">Account</div>
+          <div class="profile-account-row">
+            <div>
+              <div id="meRole" class="profile-account-role"></div>
+              <div id="meEmail" class="profile-account-email"></div>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card profile-stat-card">
+          <div class="profile-stat-label">Reviews</div>
+          <div id="reviewSummaryValue" class="profile-stat-value">...</div>
+          <div id="reviewSummaryCopy" class="profile-stat-copy">Loading moderation activity.</div>
+        </div>
+        <div class="stat-card profile-stat-card">
+          <div class="profile-stat-label">Favourites</div>
+          <div id="favsSummaryValue" class="profile-stat-value">...</div>
+          <div id="favsSummaryCopy" class="profile-stat-copy">Loading saved places.</div>
+        </div>
+      </section>
+
+      <section class="grid" style="grid-template-columns: 1.15fr 0.85fr; align-items: start;">
+        <div class="card">
+          <h2>My Reviews</h2>
+          <p class="section-copy">See which reviews are pending, published, rejected, or waiting for edits.</p>
+          <div id="reviews"></div>
+        </div>
+
+        <div class="card">
+          <h2>My Favourites</h2>
+          <p class="section-copy">Quick access to the restaurants you have saved.</p>
+          <div id="favs"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="/frontend/profile.js"></script>
+</body>
+</html>
+

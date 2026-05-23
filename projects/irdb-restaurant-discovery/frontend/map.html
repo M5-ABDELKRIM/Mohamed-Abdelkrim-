@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IRDb - Map</title>
+  <link rel="stylesheet" href="/frontend/common.css" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+</head>
+<body class="page-app">
+  <div class="container">
+    <main class="page-shell">
+      <div class="top-utility">
+        <a href="/discovery" class="brand-home" aria-label="Go to discovery">IRDb</a>
+        <div class="utility-actions">
+          <button id="appearanceToggleBtn" class="utility-icon-btn" type="button" aria-label="Toggle appearance">Dark</button>
+          <div class="account-menu">
+            <button type="button" class="account-trigger" aria-label="Open account menu"><span class="account-trigger-icon" aria-hidden="true"></span></button>
+            <div class="account-panel">
+              <a href="/profile" id="profileLink">Profile</a>
+              <a href="/admin-queue" id="adminQueueLink" class="hidden">Admin Queue</a>
+              <button id="logoutBtn" class="linkbtn" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <header class="page-header">
+        <div>
+          <h1 class="page-title">See restaurants on the map, then move from nearest to furthest.</h1>
+          <p class="section-copy">Use your location to sort nearby picks, slide through the restaurant cards above the map, and jump straight to any branch you want to inspect.</p>
+        </div>
+      </header>
+
+      <section class="hero-card map-toolbar-card">
+        <div class="search-shell search-shell-wide">
+          <input id="mapSearchInput" type="search" aria-label="Search mapped restaurants" />
+          <div class="search-actions">
+            <button id="mapSearchBtn" class="utility-icon-btn search-icon-btn" type="button" aria-label="Search">
+              <span class="search-icon" aria-hidden="true"></span>
+            </button>
+            <button id="useLocationBtn" type="button" class="featured-secondary">Use my location</button>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px; justify-content: space-between;">
+          <div id="mapStatus" class="muted">Showing mapped restaurants across Bristol.</div>
+          <div id="mapCount" class="muted"></div>
+        </div>
+      </section>
+
+      <section class="card map-carousel-card">
+        <div class="row" style="justify-content: space-between; align-items: center; margin-top: 0;">
+          <div>
+            <h2 style="margin-bottom: 6px;">Closest picks</h2>
+            <p class="section-copy" style="margin: 0;">Once location is enabled, these cards reorder from nearest to furthest.</p>
+          </div>
+          <div class="featured-nav">
+            <button id="mapPrevBtn" type="button" class="featured-secondary">Prev</button>
+            <button id="mapNextBtn" type="button">Next</button>
+          </div>
+        </div>
+
+        <div id="mapCarousel" class="map-carousel"></div>
+      </section>
+
+      <section class="card map-stage-card">
+        <div id="mapCanvas" class="map-canvas map-canvas-full" aria-label="Restaurant map"></div>
+      </section>
+    </main>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script type="module" src="/frontend/map.js"></script>
+</body>
+</html>

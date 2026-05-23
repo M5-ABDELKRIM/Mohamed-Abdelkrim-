@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IRDb - Login</title>
+  <link rel="stylesheet" href="/frontend/common.css" />
+</head>
+<body class="page-login">
+  <div class="container">
+    <main class="auth-shell">
+      <section class="auth-hero">
+        <div class="kicker">Restaurant discovery platform</div>
+        <h1 class="hero-title">Find the places people actually talk about.</h1>
+        <p class="hero-copy">IRDb brings together discovery, trusted moderation, and owner responses so restaurant reviews feel useful instead of noisy.</p>
+        <div class="auth-points">
+          <div class="auth-point">Browse restaurants across Bristol without the usual review-site clutter.</div>
+          <div class="auth-point">Leave reviews that pass through moderation before going public.</div>
+          <div class="auth-point">Restaurant owners can reply and manage their brand presence.</div>
+        </div>
+      </section>
+
+      <section class="auth-forms">
+        <div class="card">
+          <div class="kicker" style="background: var(--accent-soft); color: var(--accent-deep); border-color: transparent;">Welcome back</div>
+          <h2>Log in to your role</h2>
+          <p class="section-copy">Customers, admins, and restaurant owners all sign in here and get sent to the right workspace.</p>
+          <form id="loginForm" class="inline-form">
+            <div>
+              <label>Email</label>
+              <input id="email" type="email" required />
+            </div>
+            <div>
+              <label>Password</label>
+              <input id="password" type="password" required />
+            </div>
+            <button type="submit">Log In</button>
+            <div id="msg" class="muted"></div>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="kicker" style="background: rgba(213, 87, 94, 0.16); color: var(--olive); border-color: transparent;">New account</div>
+          <h2>Create a customer account</h2>
+          <p class="section-copy">Sign up, have a look around, and start leaving your own reviews.</p>
+          <form id="registerForm" class="inline-form">
+            <div>
+              <label>Email</label>
+              <input id="r_email" type="email" required />
+            </div>
+            <div>
+              <label>Password</label>
+              <input id="r_password" type="password" required />
+            </div>
+            <button type="submit">Create Account</button>
+            <div id="r_msg" class="muted"></div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="/frontend/login.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IRDb - Restaurant Dashboard</title>
+  <link rel="stylesheet" href="/frontend/common.css" />
+</head>
+<body class="page-app">
+  <div class="container">
+    <main class="page-shell">
+      <div class="top-utility">
+        <a href="/discovery" class="brand-home" aria-label="Go to discovery">IRDb</a>
+        <div class="utility-actions">
+          <button id="appearanceToggleBtn" class="utility-icon-btn" type="button" aria-label="Toggle appearance">Dark</button>
+          <div class="account-menu">
+            <button type="button" class="account-trigger" aria-label="Open account menu"><span class="account-trigger-icon" aria-hidden="true"></span></button>
+            <div class="account-panel">
+              <button id="logoutBtn" class="linkbtn" type="button">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <header class="page-header">
+        <div>
+          <div class="kicker" style="background: rgba(213, 87, 94, 0.16); color: var(--olive); border-color: transparent;">Brand workspace</div>
+          <h1 id="brandTitle" class="page-title">Restaurant portal.</h1>
+          <p class="section-copy">Manage your brand presence, keep branch details current, and respond to published reviews from one place.</p>
+        </div>
+      </header>
+
+      <section id="summary" class="stats-grid" style="margin-bottom: 18px;"></section>
+
+      <section class="grid" style="grid-template-columns: 1fr; align-items: start;">
+        <div class="card">
+          <h2>Branches</h2>
+          <p class="section-copy">Update public-facing branch details like contact info, website links, and menu access.</p>
+          <div id="branches" class="grid"></div>
+        </div>
+
+        <div class="card">
+          <h2>Published Reviews</h2>
+          <p class="section-copy">Reply to live customer feedback and keep your responses helpful, clear, and on-brand.</p>
+          <div id="reviews"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="/frontend/restaurant_dashboard.js"></script>
+</body>
+</html>
+
