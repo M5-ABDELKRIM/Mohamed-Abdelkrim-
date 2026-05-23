@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register as Producer</title>
+  <style>{% include "accounts/includes/auth_theme_styles.html" %}</style>
+  <style>
+    .loginPage {
+      background:
+        radial-gradient(900px 520px at 12% -12%, rgba(49,95,82,.14), transparent 58%),
+        radial-gradient(760px 460px at 100% 0%, rgba(37,99,235,.10), transparent 58%),
+        #f6f7fb;
+      color: #111827;
+    }
+
+    .loginPage .authPage {
+      padding: 32px 18px;
+    }
+
+    .loginPage .authShell {
+      width: min(1060px, 100%);
+      border: 1px solid #e5e7eb;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 22px 50px rgba(15,23,42,.10);
+      backdrop-filter: blur(10px);
+    }
+
+    .loginPage .authBrand {
+      background:
+        linear-gradient(135deg, rgba(233,243,239,.92), rgba(255,247,237,.94)),
+        #f7f3eb;
+      border-right: 1px solid #e5e7eb;
+      color: #111827;
+    }
+
+    .loginPage .authBrand::before,
+    .loginPage .authBrand::after {
+      display: none;
+    }
+
+    .loginPage .brandTop {
+      border-bottom: 1px solid rgba(49,95,82,.16);
+    }
+
+    .loginPage .logo {
+      background:
+        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.55), transparent 60%),
+        linear-gradient(135deg, #315f52, #2563eb);
+      box-shadow: 0 10px 22px rgba(49,95,82,.16);
+    }
+
+    .loginPage .brandTop p,
+    .loginPage .authBrand .lede,
+    .loginPage .featureList li,
+    .loginPage .subtext {
+      color: #64748b;
+    }
+
+    .loginPage .eyebrow {
+      background: rgba(49,95,82,.10);
+      border-color: rgba(49,95,82,.20);
+      color: #315f52;
+    }
+
+    .loginPage .authBrand h2,
+    .loginPage .authCard h3,
+    .loginPage label {
+      color: #111827;
+    }
+
+    .loginPage .featureIndex {
+      background: #315f52;
+      color: #fff;
+      border-color: rgba(49,95,82,.20);
+    }
+
+    .loginPage .authCardWrap {
+      background: #fff;
+    }
+
+    .loginPage .authCard {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 22px;
+      box-shadow: 0 18px 38px rgba(15,23,42,.08);
+      color: #111827;
+    }
+
+    .loginPage .kicker {
+      color: #315f52;
+    }
+
+    .loginPage input,
+    .loginPage textarea {
+      background: #f9fafb;
+      border-color: #d1d5db;
+      color: #111827;
+      border-radius: 14px;
+    }
+
+    .loginPage input::placeholder,
+    .loginPage textarea::placeholder {
+      color: #94a3b8;
+    }
+
+    .loginPage input:focus,
+    .loginPage textarea:focus {
+      background: #fff;
+      border-color: #315f52;
+      box-shadow: 0 0 0 4px rgba(49,95,82,.14);
+    }
+
+    .loginPage .passwordInputWrap {
+      width: 100%;
+    }
+
+    .loginPage .passwordInputWrap input {
+      width: 100%;
+      min-height: 48px;
+      padding-right: 84px;
+    }
+
+    .loginPage .passwordToggle {
+      background: #fff;
+      border-color: #d1d5db;
+      color: #475569;
+    }
+
+    .loginPage .passwordToggle:hover {
+      background: #e9f3ef;
+      border-color: rgba(49,95,82,.28);
+      color: #315f52;
+    }
+
+    .loginPage .passwordMeterBar {
+      background: #e5e7eb;
+      border-color: #d1d5db;
+    }
+
+    .loginPage .passwordMeterLabel,
+    .loginPage .passwordMeterHint {
+      color: #64748b;
+    }
+
+    .loginPage .submit {
+      background: linear-gradient(135deg, #315f52, #21483f);
+      color: #fff;
+      box-shadow: 0 14px 26px rgba(49,95,82,.20);
+      border-radius: 14px;
+    }
+
+    .loginPage .submit:hover {
+      box-shadow: 0 18px 32px rgba(49,95,82,.24);
+      filter: none;
+    }
+
+    .loginPage .msgBox.error,
+    .loginPage .fieldError {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #991b1b;
+    }
+
+    .loginPage .inlineLinks a {
+      color: #315f52;
+      text-decoration: none;
+    }
+
+    .loginPage .inlineLinks a:hover {
+      color: #21483f;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 980px) {
+      .loginPage .authBrand {
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+    }
+  </style>
+</head>
+<body class="loginPage">
+  <main class="authPage">
+    <section class="authShell">
+      <aside class="authBrand">
+        <div class="brandTop">
+          <div class="logo"></div>
+          <div>
+            <h1>DESD Bristol Food Network</h1>
+            <p>Producer Registration</p>
+          </div>
+        </div>
+
+        <div class="eyebrow">Producer Account</div>
+        <h2>Register as a producer on the network.</h2>
+        <p class="lede">
+          This route is intended for producers and food businesses who need to publish products, receive customer orders, and manage fulfilment.
+        </p>
+
+        <ul class="featureList">
+          <li><span class="featureIndex">1</span><div>Business and contact details are stored on the account for ongoing order handling.</div></li>
+          <li><span class="featureIndex">2</span><div>After sign-in, producers are redirected to the incoming orders dashboard.</div></li>
+          <li><span class="featureIndex">3</span><div>Validation rules and backend behaviour are unchanged; only the interface now matches the rest of the product.</div></li>
+        </ul>
+      </aside>
+
+      <section class="authCardWrap">
+        <div class="authCard">
+          <p class="kicker">Business Registration</p>
+          <h3>Register as Producer</h3>
+          <p class="subtext">Create a producer account for product management and order operations.</p>
+
+          {% if messages %}
+            <div class="messageStack">
+              {% for m in messages %}
+                <div class="msgBox error">{{ m }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="fieldGrid">
+              <div class="field full">
+                <label for="{{ form.business_name.id_for_label }}">Business Name</label>
+                {{ form.business_name }}
+                {% for error in form.business_name.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="field">
+                <label for="{{ form.contact_name.id_for_label }}">Contact Name</label>
+                {{ form.contact_name }}
+                {% for error in form.contact_name.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="field">
+                <label for="{{ form.phone.id_for_label }}">Phone</label>
+                {{ form.phone }}
+                {% for error in form.phone.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="field full">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+                {% for error in form.email.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="field full">
+                <label for="{{ form.address.id_for_label }}">Address</label>
+                {{ form.address }}
+                {% for error in form.address.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="field">
+                <label for="{{ form.postcode.id_for_label }}">Postcode</label>
+                {{ form.postcode }}
+                {% for error in form.postcode.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="field passwordField full">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                <div class="passwordInputWrap">
+                  {{ form.password }}
+                  <button
+                    class="passwordToggle"
+                    type="button"
+                    data-password-toggle
+                    data-target="{{ form.password.id_for_label }}"
+                    aria-controls="{{ form.password.id_for_label }}"
+                    aria-label="Show password"
+                    data-show-aria="Show password"
+                    data-hide-aria="Hide password"
+                    aria-pressed="false"
+                  >
+                    Show
+                  </button>
+                </div>
+                <div class="passwordMeter" data-password-meter-for="{{ form.password.id_for_label }}" hidden aria-live="polite">
+                  <div class="passwordMeterBar" aria-hidden="true">
+                    <div class="passwordMeterFill" data-password-meter-fill></div>
+                  </div>
+                  <div class="passwordMeterMeta">
+                    <span class="passwordMeterLabel" data-password-meter-label>Password strength:</span>
+                    <span class="passwordMeterHint">Use upper/lowercase, numbers, and symbols.</span>
+                  </div>
+                </div>
+                {% for error in form.password.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+
+              <div class="field passwordField full">
+                <label for="{{ form.confirm_password.id_for_label }}">Confirm Password</label>
+                <div class="passwordInputWrap">
+                  {{ form.confirm_password }}
+                  <button
+                    class="passwordToggle"
+                    type="button"
+                    data-password-toggle
+                    data-target="{{ form.confirm_password.id_for_label }}"
+                    aria-controls="{{ form.confirm_password.id_for_label }}"
+                    aria-label="Show password confirmation"
+                    data-show-aria="Show password confirmation"
+                    data-hide-aria="Hide password confirmation"
+                    aria-pressed="false"
+                  >
+                    Show
+                  </button>
+                </div>
+                {% for error in form.confirm_password.errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+              </div>
+            </div>
+
+            {% for error in form.non_field_errors %}<div class="fieldError">{{ error }}</div>{% endfor %}
+
+            <button class="submit" type="submit">Create Producer Account</button>
+          </form>
+
+          <div class="inlineLinks">
+            <a href="/accounts/login/">Back to Sign In</a>
+            <a href="/accounts/register/customer/">Register as Customer</a>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+  {% include "accounts/includes/auth_password_script.html" %}
+</body>
+</html>

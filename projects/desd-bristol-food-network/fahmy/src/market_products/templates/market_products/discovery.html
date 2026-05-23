@@ -1,0 +1,1046 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Discovery</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      margin: 0;
+      background: #f6f7fb;
+      color: #111827;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .muted {
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .search-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 18px 0 18px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 18px 40px rgba(17, 24, 39, 0.06);
+    }
+
+    .search-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input, select {
+      padding: 13px 14px;
+      border: 1px solid #d9dee8;
+      border-radius: 16px;
+      width: 100%;
+      background: white;
+      color: #111827;
+      font-size: 14px;
+      min-height: 50px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #111827;
+      box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+    }
+
+    .search-input {
+      font-weight: 600;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .control-md {
+      grid-column: span 3;
+    }
+
+    .control-sm {
+      grid-column: span 4;
+    }
+
+    button,
+    .btn {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 12px;
+      background: #111827;
+      color: white;
+      cursor: pointer;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .filters-toggle {
+      padding: 13px 16px;
+      border: 1px solid #d9dee8;
+      border-radius: 16px;
+      background: #f9fafb;
+      color: #111827;
+      cursor: pointer;
+      font-weight: 700;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 50px;
+      white-space: nowrap;
+      appearance: none;
+    }
+
+    .filters-toggle::after {
+      content: "▾";
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .filters-toggle[aria-expanded="true"]::after {
+      content: "▴";
+    }
+
+    .filters-panel-wrap {
+      display: none;
+      border-top: 1px solid #eef0f4;
+      padding-top: 14px;
+    }
+
+    .filters-panel-wrap.open {
+      display: block;
+    }
+
+    .filters-panel {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      padding: 10px 14px;
+      border: 1px solid #d9dee8;
+      border-radius: 12px;
+      background: white;
+      color: #111827;
+      cursor: pointer;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .thumb {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #eef2ff;
+      font-size: 12px;
+    }
+
+    .filter-summary {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: -4px 0 18px;
+    }
+
+    .danger {
+      background: #fee2e2;
+    }
+
+    .ok {
+      background: #dcfce7;
+    }
+
+    .product-link {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .product-description {
+      color: #4b5563;
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 10px 0 0;
+    }
+
+    .product-actions {
+      margin-top: auto;
+      padding-top: 16px;
+    }
+
+    .avoid-panel {
+      grid-column: 1 / -1;
+      background: #f9fafb;
+      border: 1px solid #eef0f4;
+      border-radius: 20px;
+      padding: 14px;
+    }
+
+    .avoid-panel-title {
+      color: #374151;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .avoid-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .avoid-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .avoid-option input {
+      width: auto;
+      margin: 0;
+      accent-color: #111827;
+    }
+
+    .avoid-option:has(input:checked) {
+      background: #fee2e2;
+      border-color: #fecaca;
+      color: #7f1d1d;
+    }
+
+    .form-actions {
+      grid-column: 7 / -1;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 0;
+    }
+
+    .form-actions button,
+    .form-actions .btn-secondary {
+      min-width: 150px;
+      border-radius: 16px;
+    }
+
+    .product-actions form {
+      margin: 0;
+      display: block;
+    }
+
+    .product-actions button {
+      width: 100%;
+    }
+
+    .disabled-btn {
+      width: 100%;
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #9ca3af;
+    }
+
+    .card.unavailable {
+      background: #f3f4f6;
+      border-color: #d1d5db;
+      color: #6b7280;
+    }
+
+    .card.unavailable .thumb,
+    .card.unavailable .muted,
+    .card.unavailable .product-description {
+      opacity: 0.72;
+    }
+
+    .card.unavailable .row strong {
+      color: #4b5563;
+    }
+
+    .card.unavailable .pill:not(.danger):not(.ok) {
+      background: #e5e7eb;
+      color: #4b5563;
+    }
+
+    .pagination {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      align-items: center;
+    }
+
+    .msg-wrap {
+      margin: 14px 0;
+    }
+
+    .msg {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #eef2ff;
+      color: #3730a3;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+    }
+
+    @media (max-width: 640px) {
+      .top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .top-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .search-form {
+        padding: 14px;
+      }
+
+      .search-shell,
+      .filter-grid,
+      .filters-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .search-input,
+      .control-sm,
+      .control-md,
+      .avoid-panel,
+      .form-actions {
+        grid-column: 1;
+      }
+
+      .form-actions {
+        width: 100%;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+    body.customerDiscovery {
+      --page: #f5f1e8;
+      --surface: #ffffff;
+      --surface-soft: #f7f3eb;
+      --surface-tint: #e9f3ef;
+      --text: #20231f;
+      --muted: #68736b;
+      --line: #ded5c8;
+      --line-soft: #ece4d8;
+      --primary: #315f52;
+      --primary-strong: #21483f;
+      --secondary: #59645e;
+      --warm: #c66b3d;
+      --success: #2f7d57;
+      --success-bg: #eaf5ee;
+      --danger: #ad3f35;
+      --danger-bg: #fae9e6;
+      --info-bg: #eaf1f7;
+      --shadow: 0 18px 42px rgba(55,45,34,.10);
+      font-family: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at 82% 8%, rgba(198,107,61,.14), transparent 30%),
+        radial-gradient(circle at 25% 0%, rgba(49,95,82,.12), transparent 34%),
+        var(--page);
+      color: var(--text);
+    }
+
+    body.customerDiscovery .siteNav {
+      background: rgba(255,255,255,.86);
+      border-bottom: 1px solid var(--line-soft);
+      box-shadow: 0 14px 34px rgba(55,45,34,.10);
+    }
+
+    body.customerDiscovery .siteBrand,
+    body.customerDiscovery .siteNavLinks a,
+    body.customerDiscovery .siteLogoutButton {
+      color: var(--text);
+    }
+
+    body.customerDiscovery .siteBrandMark {
+      background: linear-gradient(135deg, var(--primary), var(--warm));
+      box-shadow: 0 10px 22px rgba(49,95,82,.16);
+    }
+
+    body.customerDiscovery .siteBrandText small,
+    body.customerDiscovery .siteUser {
+      color: var(--muted);
+    }
+
+    body.customerDiscovery .siteNavLinks a:hover,
+    body.customerDiscovery .siteNavLinks a[aria-current="page"] {
+      background: linear-gradient(135deg, var(--surface-tint), #fff3e4);
+      border-color: var(--line);
+      color: var(--primary-strong);
+    }
+
+    body.customerDiscovery .siteLogoutButton {
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    body.customerDiscovery .wrap {
+      max-width: 1180px;
+      padding: 28px 24px 44px;
+    }
+
+    body.customerDiscovery .top {
+      align-items: stretch;
+      padding: 26px 28px 30px;
+      border: 1px solid rgba(222,213,200,.72);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(198,107,61,.14), transparent 34%),
+        linear-gradient(135deg, rgba(255,255,255,.92), rgba(247,243,235,.86));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body.customerDiscovery .top::after {
+      content: "";
+      width: 180px;
+      height: 180px;
+      position: absolute;
+      right: -72px;
+      bottom: -86px;
+      border-radius: 999px;
+      background: rgba(49,95,82,.12);
+      pointer-events: none;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      margin-bottom: 10px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--surface-tint), #fff3e4);
+      border: 1px solid var(--line);
+      color: var(--primary-strong);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    body.customerDiscovery h1 {
+      color: var(--text);
+      font-size: clamp(2.3rem, 5vw, 4.3rem);
+      line-height: .98;
+      letter-spacing: -.06em;
+      max-width: 760px;
+      margin-bottom: 8px !important;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .hero-stat {
+      min-width: 132px;
+      padding: 12px 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      background: rgba(255,255,255,.74);
+    }
+
+    .hero-stat strong {
+      display: block;
+      font-size: 20px;
+      color: var(--primary-strong);
+    }
+
+    .hero-stat span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    body.customerDiscovery .search-form {
+      margin: 18px 0 18px;
+      padding: 16px;
+      border-color: var(--line-soft);
+      background: rgba(255,255,255,.88);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      position: relative;
+      z-index: 2;
+    }
+
+    body.customerDiscovery .search-input {
+      min-height: 54px;
+      padding-left: 18px;
+      font-size: 16px;
+      border-radius: 18px;
+    }
+
+    body.customerDiscovery .search-shell {
+      grid-template-columns: minmax(0, 1fr) 108px 154px;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    body.customerDiscovery .search-shell button,
+    body.customerDiscovery .filters-toggle {
+      min-height: 54px;
+      width: 100%;
+    }
+
+    body.customerDiscovery input,
+    body.customerDiscovery select {
+      border-color: var(--line);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    body.customerDiscovery input:focus,
+    body.customerDiscovery select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(49,95,82,.14);
+    }
+
+    body.customerDiscovery button,
+    body.customerDiscovery .btn {
+      border: 1px solid var(--primary);
+      background: var(--primary);
+      color: #fff;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(49,95,82,.14);
+    }
+
+    body.customerDiscovery button:hover,
+    body.customerDiscovery .btn:hover {
+      background: var(--primary-strong);
+      border-color: var(--primary-strong);
+    }
+
+    body.customerDiscovery .filters-toggle,
+    body.customerDiscovery .btn-secondary {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--secondary);
+      box-shadow: none;
+    }
+
+    body.customerDiscovery .filters-toggle:hover,
+    body.customerDiscovery .btn-secondary:hover {
+      background: var(--surface-soft);
+      color: var(--text);
+    }
+
+    body.customerDiscovery .filters-toggle::after {
+      content: none;
+    }
+
+    body.customerDiscovery .filters-toggle[aria-expanded="true"]::after {
+      content: none;
+    }
+
+    body.customerDiscovery .filters-panel-wrap {
+      border-top-color: var(--line-soft);
+    }
+
+    body.customerDiscovery .avoid-panel {
+      background: var(--surface-soft);
+      border-color: var(--line-soft);
+    }
+
+    body.customerDiscovery .avoid-panel-title {
+      color: var(--primary-strong);
+    }
+
+    body.customerDiscovery .avoid-option {
+      background: #fff;
+      border-color: var(--line);
+      color: var(--secondary);
+    }
+
+    body.customerDiscovery .avoid-option input {
+      accent-color: var(--primary);
+    }
+
+    body.customerDiscovery .avoid-option:has(input:checked) {
+      background: var(--danger-bg);
+      border-color: #fac5c0;
+      color: var(--danger);
+    }
+
+    body.customerDiscovery .filter-summary {
+      margin: 0 0 22px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      align-items: center;
+      min-height: 0;
+    }
+
+    body.customerDiscovery .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    body.customerDiscovery .card {
+      border-color: var(--line-soft);
+      border-radius: 22px;
+      background: rgba(255,255,255,.9);
+      box-shadow: 0 10px 26px rgba(55,45,34,.07);
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+      overflow: hidden;
+    }
+
+    body.customerDiscovery .product-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(49,95,82,.26);
+      box-shadow: 0 18px 38px rgba(55,45,34,.12);
+    }
+
+    body.customerDiscovery .thumb,
+    body.customerDiscovery .thumb-placeholder {
+      height: 205px;
+      border-color: var(--line-soft);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(198,107,61,.16), transparent 36%),
+        linear-gradient(135deg, var(--surface-tint), #fff3e4);
+    }
+
+    body.customerDiscovery .thumb-placeholder {
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 14px;
+      color: var(--primary-strong);
+      font-size: 14px;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    body.customerDiscovery .product-title-row {
+      align-items: flex-start;
+    }
+
+    body.customerDiscovery .product-name {
+      font-size: 18px;
+      line-height: 1.2;
+      letter-spacing: -.02em;
+    }
+
+    body.customerDiscovery .pill {
+      border: 1px solid var(--line-soft);
+      background: var(--surface-tint);
+      color: var(--primary-strong);
+      font-weight: 800;
+    }
+
+    body.customerDiscovery .product-title-row .pill {
+      border-color: #edd2b8;
+      background: #fff3e4;
+      color: #8a4f25;
+      white-space: nowrap;
+    }
+
+    body.customerDiscovery .ok {
+      border-color: #b9e5c8;
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    body.customerDiscovery .danger {
+      border-color: #fac5c0;
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    body.customerDiscovery .muted,
+    body.customerDiscovery .product-description {
+      color: var(--muted);
+    }
+
+    body.customerDiscovery .product-description {
+      line-height: 1.55;
+    }
+
+    body.customerDiscovery .product-actions button {
+      min-height: 46px;
+      border-radius: 14px;
+    }
+
+    body.customerDiscovery .disabled-btn {
+      border-color: var(--line);
+      background: #e8e0d4;
+      color: var(--muted);
+      box-shadow: none;
+    }
+
+    body.customerDiscovery .pagination {
+      justify-content: center;
+    }
+
+    body.customerDiscovery .msg {
+      border: 1px solid #c7d8ff;
+      background: var(--info-bg);
+      color: #1d4ed8;
+    }
+
+    body.customerDiscovery .wrap a:not(.product-link):not(.btn):not(.btn-secondary) {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      width: max-content;
+      max-width: 100%;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--primary-strong);
+      font-weight: 850;
+      text-decoration: none;
+      box-shadow: 0 6px 14px rgba(55,45,34,.05);
+      transition: background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
+    }
+
+    body.customerDiscovery .wrap a:not(.product-link):not(.btn):not(.btn-secondary):hover {
+      transform: translateY(-1px);
+      border-color: var(--primary);
+      background: linear-gradient(135deg, var(--surface-tint), #fff3e4);
+      color: var(--primary-strong);
+    }
+
+    @media (max-width: 900px) {
+      body.customerDiscovery .grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body.customerDiscovery .wrap {
+        padding: 18px 14px 34px;
+      }
+
+      body.customerDiscovery .top {
+        padding: 22px;
+      }
+
+      body.customerDiscovery .search-shell,
+      body.customerDiscovery .grid {
+        grid-template-columns: 1fr;
+      }
+
+      body.customerDiscovery .filter-summary {
+        margin-bottom: 16px;
+      }
+    }
+  </style>
+</head>
+<body class="customerDiscovery">
+  {% include "includes/site_nav.html" %}
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="hero-kicker">Customer marketplace</div>
+        <h1 style="margin:0;">Discovery</h1>
+        <div class="muted">Search by product, producer, category, allergens, food miles, organic status, price, and availability.</div>
+      </div>
+
+    </div>
+
+    {% if messages %}
+      <div class="msg-wrap">
+        {% for m in messages %}
+          <div class="msg">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <form method="get" class="search-form">
+      <div class="search-shell">
+        <input class="search-input" name="q" placeholder="Search apples, bread, producers, category, season..." value="{{ filters.q }}">
+        <button type="button" class="filters-toggle" aria-expanded="{% if has_advanced_filters %}true{% else %}false{% endif %}" aria-controls="discovery-filters">Refine</button>
+        <button type="submit">Search marketplace</button>
+      </div>
+      <div id="discovery-filters" class="filters-panel-wrap{% if has_advanced_filters %} open{% endif %}">
+        <div class="filters-panel">
+            <select class="control-md" name="category">
+              <option value="">All categories</option>
+              {% for value, label in categories %}
+                <option value="{{ value }}" {% if filters.category == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <select class="control-md" name="available">
+              <option value="both" {% if filters.available == "both" %}selected{% endif %}>In stock and in season</option>
+              <option value="in_stock" {% if filters.available == "in_stock" %}selected{% endif %}>In stock only</option>
+              <option value="in_season" {% if filters.available == "in_season" %}selected{% endif %}>In season only</option>
+              <option value="active" {% if filters.available == "active" %}selected{% endif %}>All active products</option>
+            </select>
+            <select class="control-md" name="organic">
+              <option value="" {% if not filters.organic %}selected{% endif %}>All</option>
+              <option value="1" {% if filters.organic == "1" %}selected{% endif %}>Organic only</option>
+              <option value="0" {% if filters.organic == "0" %}selected{% endif %}>Non-organic only</option>
+            </select>
+            <input class="control-sm" name="max_food_miles" type="number" step="0.1" min="0" placeholder="Max food miles" value="{{ filters.max_food_miles }}">
+            <input class="control-sm" name="min_price" type="number" step="0.01" min="0" placeholder="Min £" value="{{ filters.min_price }}">
+            <input class="control-sm" name="max_price" type="number" step="0.01" min="0" placeholder="Max £" value="{{ filters.max_price }}">
+
+            <div class="avoid-panel">
+              <div class="avoid-panel-title">Avoid categories / allergens</div>
+              <div class="avoid-options">
+                {% for value, label in categories %}
+                  <label class="avoid-option">
+                    <input type="checkbox" name="avoid_categories" value="{{ value }}" {% if value in filters.avoid_categories %}checked{% endif %}>
+                    Avoid {{ label }}
+                  </label>
+                {% endfor %}
+              </div>
+            </div>
+
+            <select class="control-md" name="sort">
+              <option value="name" {% if filters.sort == "name" %}selected{% endif %}>Sort: Name</option>
+              <option value="price_asc" {% if filters.sort == "price_asc" %}selected{% endif %}>Price low to high</option>
+              <option value="price_desc" {% if filters.sort == "price_desc" %}selected{% endif %}>Price high to low</option>
+              <option value="food_miles" {% if filters.sort == "food_miles" %}selected{% endif %}>Lowest food miles</option>
+              <option value="newest" {% if filters.sort == "newest" %}selected{% endif %}>Newest</option>
+            </select>
+            <div class="form-actions">
+              <a class="btn-secondary" href="{% url 'discovery_alt' %}">Clear</a>
+            </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="filter-summary">
+      <span class="pill">{{ page_obj.paginator.count }} product{{ page_obj.paginator.count|pluralize }} found</span>
+      {% if filters.q %}<span class="pill">Search: {{ filters.q }}</span>{% endif %}
+      {% if filters.category %}<span class="pill">Category filtered</span>{% endif %}
+      {% if filters.available == "both" %}<span class="pill ok">In stock and in season</span>{% endif %}
+      {% if filters.available == "in_stock" %}<span class="pill ok">In stock only</span>{% endif %}
+      {% if filters.available == "in_season" %}<span class="pill ok">In season only</span>{% endif %}
+      {% if filters.available == "active" %}<span class="pill">All active products</span>{% endif %}
+      {% if filters.organic == "1" %}<span class="pill ok">Organic only</span>{% endif %}
+      {% if filters.organic == "0" %}<span class="pill">Non-organic only</span>{% endif %}
+      {% for label in avoided_category_labels %}<span class="pill">Avoiding {{ label }}</span>{% endfor %}
+      {% if filters.max_food_miles %}<span class="pill">Within {{ filters.max_food_miles }} miles</span>{% endif %}
+    </div>
+
+    <div class="grid">
+      {% for p in page_obj %}
+        <div class="card product-card{% if not p.can_be_ordered %} unavailable{% endif %}">
+          <a class="product-link" href="{% url 'product_detail' p.id %}">
+            {% if p.image_url %}
+              <img class="thumb" src="{{ p.image_url }}" alt="{{ p.name }}" onerror="this.onerror=null;this.src='{{ p.image_fallback_url }}';">
+            {% else %}
+              <div class="thumb-placeholder">Local product</div>
+            {% endif %}
+            <div class="row product-title-row">
+              <strong class="product-name">{{ p.name }}</strong>
+              <span class="pill">£{{ p.price }}</span>
+            </div>
+
+            <div class="muted" style="margin-top:6px;">
+              Producer: {{ p.producer.display_name }}
+            </div>
+            {% if p.unit_label %}
+              <div class="muted" style="margin-top:4px;">Pack size: {{ p.unit_label }}</div>
+            {% endif %}
+
+            {% if p.description %}
+              <p class="product-description">{{ p.description|truncatechars:120 }}</p>
+            {% endif %}
+
+            <div class="meta-pills">
+              {% if p.stock_quantity > 0 %}
+                <span class="pill ok">In stock: {{ p.stock_quantity }}</span>
+              {% else %}
+                <span class="pill danger">Out of stock</span>
+              {% endif %}
+
+              {% if not p.is_active %}
+                <span class="pill danger">Inactive</span>
+              {% endif %}
+              {% if p.is_organic %}
+                <span class="pill ok">Organic</span>
+              {% endif %}
+              <span class="pill">{{ p.get_category_display }}</span>
+              <span class="pill">{{ p.get_seasonal_availability_display }}</span>
+              {% for label in p.avoid_category_labels %}
+                {% if label != p.get_category_display %}
+                  <span class="pill">{{ label }}</span>
+                {% endif %}
+              {% endfor %}
+              {% if p.seasonal_availability == "all_year" %}
+                <span class="pill ok">{{ p.seasonal_status_label }}</span>
+              {% elif p.is_currently_in_season %}
+                <span class="pill ok">In season</span>
+              {% else %}
+                <span class="pill danger">Out of season</span>
+              {% endif %}
+              {% if p.seasonal_range_display %}
+                <span class="pill">{{ p.seasonal_range_display }}</span>
+              {% endif %}
+              {% if p.food_miles != None %}
+                <span class="pill">{{ p.food_miles }} food miles</span>
+              {% endif %}
+              {% if p.allergens %}
+                <span class="pill danger">Allergens: {{ p.allergens }}</span>
+              {% endif %}
+            </div>
+          </a>
+
+          <div class="product-actions">
+            {% if p.can_be_ordered %}
+              <form method="post" action="{% url 'market_payments:add_to_cart' p.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}" />
+                <button type="submit">Add to cart</button>
+              </form>
+            {% else %}
+              <button type="button" class="disabled-btn" disabled>{% if p.stock_quantity <= 0 %}Out of stock{% elif not p.is_currently_in_season %}Out of season{% else %}Unavailable{% endif %}</button>
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <div class="card" style="grid-column: 1 / -1;">
+          No products found.
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a class="pill" href="?{{ pagination_query }}{% if pagination_query %}&{% endif %}page={{ page_obj.previous_page_number }}">Prev</a>
+      {% endif %}
+
+      <span class="muted">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+      {% if page_obj.has_next %}
+        <a class="pill" href="?{{ pagination_query }}{% if pagination_query %}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+      {% endif %}
+    </div>
+  </div>
+  <script>
+    const filtersToggle = document.querySelector('.filters-toggle');
+    const filtersPanel = document.getElementById('discovery-filters');
+    if (filtersToggle && filtersPanel) {
+      filtersToggle.addEventListener('click', function() {
+        const isOpen = filtersPanel.classList.toggle('open');
+        filtersToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    }
+  </script>
+</body>
+</html>

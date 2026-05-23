@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Order Finance Detail</title>
+  <style>{% include "market_finance/includes/admin_finance_theme_styles.html" %}</style>
+</head>
+<body>
+  <style>
+    .main {
+      padding-top: 84px;
+    }
+    @media (max-width: 980px) {
+      .main {
+        padding-top: 76px;
+      }
+    }
+  </style>
+  <div class="layout page">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo brandLogo"></div>
+        <div>
+          <h1>Market Finance</h1>
+          <p>Order drilldown</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="{% url 'market_finance:admin_finance_dashboard' %}">
+          <span class="icon">◫</span>
+          <span>Overview</span>
+        </a>
+        <a class="active" href="{% url 'market_finance:admin_finance_reports' %}">
+          <span class="icon">£</span>
+          <span>Financial Reports</span>
+        </a>
+        <a href="{% url 'market_finance:admin_finance_settlements' %}">
+          <span class="icon">⇄</span>
+          <span>Settlements</span>
+        </a>
+        <a href="{% url 'market_finance:admin_finance_exports' %}">
+          <span class="icon">↓</span>
+          <span>Exports</span>
+        </a>
+        <a href="/admin/">
+          <span class="icon">⚙</span>
+          <span>Django Admin</span>
+        </a>
+      </nav>
+
+      <div class="profile">
+        <div class="avatar">{{ request.user.username|default:"A"|slice:":1"|upper }}</div>
+        <div>
+          <div style="font-weight:700;">{{ request.user }}</div>
+          <small>Admin finance session</small>
+        </div>
+      </div>
+      <form class="adminSidebarLogout" method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="headline">
+          <h2>Order Finance Detail</h2>
+          <p>Complete drilldown for parent order #{{ order.id }}, including commission calculation, per-producer payout splits, and itemised multi-vendor traces.</p>
+        </div>
+        <div class="filterActions">
+          <a class="linkBtn ghost" href="{% url 'market_finance:admin_finance_reports' %}">Back to reports</a>
+          <a class="linkBtn" href="{% url 'market_finance:admin_finance_dashboard' %}">Workspace home</a>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="grid three">
+          <article class="card">
+            <div class="cardHeader">
+              <div class="meta">
+                <div class="id">Parent Order</div>
+                <div class="sub">Customer {{ order.customer.username }} • {{ order.created_at|date:"d M Y, H:i" }}</div>
+              </div>
+            </div>
+            <div class="cardBody single">
+              <div class="totals">
+                <div class="row"><span>Order total</span><span class="money">£{{ order.total_amount|floatformat:2 }}</span></div>
+                <div class="row"><span>Commission total</span><span class="money">£{{ order.commission_total|floatformat:2 }}</span></div>
+                <div class="row"><span>Producer payouts</span><span class="money">£{{ producer_payout_total|floatformat:2 }}</span></div>
+                <div class="row"><span>Order status</span><span>{{ order.get_status_display }}</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cardHeader">
+              <div class="meta">
+                <div class="id">Payment Trace</div>
+                <div class="sub">Matched from the payment snapshot service for audit visibility.</div>
+              </div>
+            </div>
+            <div class="cardBody single">
+              <div class="totals">
+                <div class="row"><span>Payment status</span><span>{% if payment_snapshot %}{{ payment_snapshot.get_status_display }}{% else %}No payment snapshot found{% endif %}</span></div>
+                <div class="row"><span>Card type</span><span>{% if payment_snapshot %}{{ payment_card_type }}{% else %}-{% endif %}</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="cardHeader">
+              <div class="meta">
+                <div class="id">Split Check</div>
+                <div class="sub">Commission is 5% of full order value. Each producer payout stays tied to their own suborder share.</div>
+              </div>
+            </div>
+            <div class="cardBody single">
+              <div class="totals">
+                <div class="row"><span>Total producers</span><span>{{ suborders|length }}</span></div>
+                <div class="row"><span>5% commission</span><span class="money">£{{ order.commission_total|floatformat:2 }}</span></div>
+                <div class="row"><span>95% payout total</span><span class="money">£{{ producer_payout_total|floatformat:2 }}</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="sectionHeader">
+          <div>
+            <h3>Producer Breakdown</h3>
+            <p>Each suborder below stays linked to the parent order while exposing item-level totals and payout status.</p>
+          </div>
+        </div>
+
+        <section class="activityList">
+          {% for suborder in suborders %}
+            <article class="card">
+              <div class="cardHeader">
+                <div class="meta">
+                  <div class="id">{{ suborder.producer.business_name|default:suborder.producer.username }}</div>
+                  <div class="sub">
+                    Parent order <b>#{{ order.id }}</b> • Producer suborder <b>#{{ suborder.id }}</b><br>
+                    Delivery {{ suborder.delivery_date|date:"d M Y, H:i" }}
+                  </div>
+                </div>
+                <div class="chips">
+                  <span class="chip status" data-s="{{ suborder.status }}">{{ suborder.get_status_display }}</span>
+                </div>
+              </div>
+
+              <div class="cardBody">
+                <div>
+                  <div class="sectionHeader" style="margin-bottom:8px;">
+                    <div>
+                      <h3 style="margin:0; font-size:14px;">Items</h3>
+                    </div>
+                  </div>
+                  <ul class="items">
+                    {% for item in suborder.items.all %}
+                      <li>{{ item.product_name }} x{{ item.quantity }} <span class="muted">• unit £{{ item.unit_price|floatformat:2 }} • line £{{ item.line_total|floatformat:2 }}</span></li>
+                    {% empty %}
+                      <li class="muted">No items recorded.</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+
+                <div class="totals">
+                  <div class="row"><span>Subtotal</span><span class="money">£{{ suborder.subtotal|floatformat:2 }}</span></div>
+                  <div class="row"><span>Commission (5%)</span><span class="money">£{{ suborder.commission_amount|floatformat:2 }}</span></div>
+                  <div class="row"><span>Producer payout (95%)</span><span class="money">£{{ suborder.producer_payout_amount|floatformat:2 }}</span></div>
+                  <div class="row"><span>Settlement relevance</span><span>{% if suborder.status == "DELIVERED" %}Included in weekly settlements{% else %}Awaiting delivery{% endif %}</span></div>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </section>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

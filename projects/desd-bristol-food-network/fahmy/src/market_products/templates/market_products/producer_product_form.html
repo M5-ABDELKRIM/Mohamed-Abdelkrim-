@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ page_title }}</title>
+  <style>
+    {% include "market_orders/includes/producer_theme_styles.html" %}
+
+    .formWrap{
+      max-width:900px;
+      margin:0 auto;
+      padding:38px 18px;
+    }
+
+    .formHeader{
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      align-items:flex-start;
+      margin-bottom:26px;
+      padding:24px;
+      border:1px solid var(--line-soft);
+      border-radius:22px;
+      background:linear-gradient(135deg, #ffffff, #fff3e4);
+      box-shadow:0 12px 28px rgba(55,45,34,.06);
+    }
+
+    .formHeader h1{
+      margin:0;
+      font-size:34px;
+      letter-spacing:-.03em;
+    }
+
+    .formPanel{
+      background:var(--surface);
+      border:1px solid var(--line-soft);
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 12px 28px rgba(55,45,34,.06);
+    }
+
+    .formGrid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:18px;
+    }
+
+    .fieldBlock{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .fieldBlock.full{ grid-column:1 / -1; }
+    .fieldBlock input,
+    .fieldBlock textarea,
+    .fieldBlock select{ width:100%; }
+
+    .checkbox-row{
+      grid-column:1 / -1;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:16px;
+      border:1px solid var(--line-soft);
+      border-radius:16px;
+      background:var(--accent-sage);
+    }
+
+    .checkbox-row input{ width:auto; }
+    .checkbox-row label{ margin:0; color:var(--text); font-size:14px; }
+    .btn-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top:24px; }
+    .errorlist{ color:var(--danger); margin:6px 0 0; padding-left:18px; }
+    .preview-card{
+      grid-column:1 / -1;
+      border:1px solid var(--line-soft);
+      border-radius:18px;
+      background:var(--surface);
+      overflow:hidden;
+    }
+    .preview-card strong{
+      display:block;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line-soft);
+    }
+    .preview-frame img{
+      width:100%;
+      max-height:320px;
+      object-fit:cover;
+      display:block;
+    }
+    .preview-empty{
+      color:var(--muted);
+      font-size:14px;
+      padding:18px;
+      text-align:center;
+    }
+
+    @media(max-width:760px){
+      .formHeader{ flex-direction:column; }
+      .formGrid{ grid-template-columns:1fr; }
+      .fieldBlock.full,
+      .checkbox-row,
+      .preview-card{ grid-column:auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="producerShell">
+    <aside class="producerNav">
+      <div class="brand">
+        <div class="brandLogo">P</div>
+        <div>
+          <h1>Producer Hub</h1>
+          <p>{{ request.user.display_name }}</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Producer navigation">
+        <a href="/orders/producer/"><span class="navIcon">H</span><span>Dashboard</span></a>
+        <a href="/orders/producer/dashboard/"><span class="navIcon">O</span><span>Orders</span></a>
+        <a href="/finance/producer/settlements/"><span class="navIcon">£</span><span>Settlements</span></a>
+        <a class="active" href="/producer/products/"><span class="navIcon">P</span><span>Products</span></a>
+        <a href="{% url 'producer_content_dashboard' %}"><span class="navIcon">C</span><span>Content</span></a>
+        <a href="/admin/"><span class="navIcon">A</span><span>Admin</span></a>
+      </nav>
+
+      <div class="profile">
+        <span class="avatar">{{ request.user.display_name|default:"U"|first|upper }}</span>
+        <span>
+          <strong>{{ request.user.display_name }}</strong><br>
+          <span class="muted">Signed in as producer</span>
+        </span>
+      </div>
+      <form class="sidebarLogout" method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="producerMain">
+      <div class="formWrap">
+        <header class="formHeader">
+          <div>
+            <p class="eyebrow">Products</p>
+            <h1>{{ page_title }}</h1>
+            <p class="muted">Update the details customers see and the stock level your team uses.</p>
+          </div>
+          <a class="linkBtn secondary" href="{% url 'producer_product_list' %}">Back to products</a>
+        </header>
+
+        <section class="formPanel">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="formGrid">
+              <div class="preview-card">
+                <strong>Image preview</strong>
+                <div class="preview-frame">
+                  <img
+                    id="product-image-preview"
+                    src="{{ form.image_url.value|default:'' }}"
+                    alt="Product image preview"
+                    {% if not form.image_url.value %}style="display:none;"{% endif %}
+                  >
+                  <div
+                    id="product-image-preview-empty"
+                    class="preview-empty"
+                    {% if form.image_url.value %}style="display:none;"{% endif %}
+                  >
+                    Add a product image URL to preview how this item will appear to customers.
+                  </div>
+                </div>
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.name.id_for_label }}">Product name</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.category.id_for_label }}">Category</label>
+                {{ form.category }}
+                {{ form.category.errors }}
+              </div>
+
+              <div class="fieldBlock full">
+                <label for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+                {{ form.description.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.unit_label.id_for_label }}">Pack size / units</label>
+                {{ form.unit_label }}
+                {{ form.unit_label.errors }}
+                {% if form.unit_label.help_text %}<span class="muted">{{ form.unit_label.help_text }}</span>{% endif %}
+              </div>
+
+              <div class="fieldBlock full">
+                <label for="{{ form.image_url.id_for_label }}">Product image URL</label>
+                {{ form.image_url }}
+                {{ form.image_url.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.price.id_for_label }}">Price</label>
+                {{ form.price }}
+                {{ form.price.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.stock_quantity.id_for_label }}">Stock quantity</label>
+                {{ form.stock_quantity }}
+                {{ form.stock_quantity.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.low_stock_threshold.id_for_label }}">Low stock alert level</label>
+                {{ form.low_stock_threshold }}
+                {{ form.low_stock_threshold.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.allergens.id_for_label }}">Allergens</label>
+                {{ form.allergens }}
+                {{ form.allergens.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.food_miles.id_for_label }}">Food miles</label>
+                {{ form.food_miles }}
+                {{ form.food_miles.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.seasonal_availability.id_for_label }}">Seasonal availability</label>
+                {{ form.seasonal_availability }}
+                <span class="muted">{{ form.seasonal_availability.help_text }}</span>
+                {{ form.seasonal_availability.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.season_start_month.id_for_label }}">Available from</label>
+                {{ form.season_start_month }}
+                <span class="muted">{{ form.season_start_month.help_text }}</span>
+                {{ form.season_start_month.errors }}
+              </div>
+
+              <div class="fieldBlock">
+                <label for="{{ form.season_end_month.id_for_label }}">Available until</label>
+                {{ form.season_end_month }}
+                <span class="muted">{{ form.season_end_month.help_text }}</span>
+                {{ form.season_end_month.errors }}
+              </div>
+
+              <div class="checkbox-row">
+                {{ form.is_organic }}
+                <label for="{{ form.is_organic.id_for_label }}">Certified organic</label>
+              </div>
+              {{ form.is_organic.errors }}
+
+              <div class="checkbox-row">
+                {{ form.is_active }}
+                <label for="{{ form.is_active.id_for_label }}">Visible to customers</label>
+              </div>
+              {{ form.is_active.errors }}
+            </div>
+
+            <div class="btn-row">
+              <button type="submit">{{ submit_label }}</button>
+              <a class="linkBtn secondary" href="{% url 'producer_product_list' %}">Cancel</a>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script>
+    (function () {
+      var input = document.getElementById("{{ form.image_url.id_for_label }}");
+      var preview = document.getElementById("product-image-preview");
+      var empty = document.getElementById("product-image-preview-empty");
+      if (!input || !preview || !empty) {
+        return;
+      }
+
+      function renderPreview() {
+        var value = (input.value || "").trim();
+        if (!value) {
+          preview.style.display = "none";
+          preview.removeAttribute("src");
+          empty.textContent = "Add a product image URL to preview how this item will appear to customers.";
+          empty.style.display = "block";
+          return;
+        }
+        preview.src = value;
+        preview.style.display = "block";
+        empty.style.display = "none";
+      }
+
+      preview.addEventListener("error", function () {
+        preview.style.display = "none";
+        empty.textContent = "This image URL could not be loaded. Double-check the link and try again.";
+        empty.style.display = "block";
+      });
+
+      preview.addEventListener("load", function () {
+        empty.style.display = "none";
+        preview.style.display = "block";
+      });
+
+      input.addEventListener("input", renderPreview);
+      renderPreview();
+    })();
+  </script>
+</body>
+</html>

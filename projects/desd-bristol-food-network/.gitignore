@@ -1,0 +1,26 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django
+db.sqlite3
+*.log
+
+# Environment
+.env
+.env.*
+*.env
+
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Docker (optional)
+*.pid
+
+# Local extracted assessment notes
+fahmy/test_cases_extracted.txt

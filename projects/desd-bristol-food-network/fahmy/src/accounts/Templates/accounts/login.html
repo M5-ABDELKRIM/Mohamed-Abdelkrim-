@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In</title>
+  <style>{% include "accounts/includes/auth_theme_styles.html" %}</style>
+  <style>
+    .loginPage {
+      background:
+        radial-gradient(900px 520px at 12% -12%, rgba(49,95,82,.14), transparent 58%),
+        radial-gradient(760px 460px at 100% 0%, rgba(37,99,235,.10), transparent 58%),
+        #f6f7fb;
+      color: #111827;
+    }
+
+    .loginPage .authPage {
+      padding: 32px 18px;
+    }
+
+    .loginPage .authShell {
+      width: min(1060px, 100%);
+      border: 1px solid #e5e7eb;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 22px 50px rgba(15,23,42,.10);
+      backdrop-filter: blur(10px);
+    }
+
+    .loginPage .authBrand {
+      background:
+        linear-gradient(135deg, rgba(233,243,239,.92), rgba(255,247,237,.94)),
+        #f7f3eb;
+      border-right: 1px solid #e5e7eb;
+      color: #111827;
+    }
+
+    .loginPage .authBrand::before,
+    .loginPage .authBrand::after {
+      display: none;
+    }
+
+    .loginPage .brandTop {
+      border-bottom: 1px solid rgba(49,95,82,.16);
+    }
+
+    .loginPage .logo {
+      background:
+        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.55), transparent 60%),
+        linear-gradient(135deg, #315f52, #2563eb);
+      box-shadow: 0 10px 22px rgba(49,95,82,.16);
+    }
+
+    .loginPage .brandTop p,
+    .loginPage .authBrand .lede,
+    .loginPage .featureList li,
+    .loginPage .subtext,
+    .loginPage .linkCard small {
+      color: #64748b;
+    }
+
+    .loginPage .eyebrow {
+      background: rgba(49,95,82,.10);
+      border-color: rgba(49,95,82,.20);
+      color: #315f52;
+    }
+
+    .loginPage .authBrand h2,
+    .loginPage .authCard h3,
+    .loginPage .linkCard strong,
+    .loginPage label {
+      color: #111827;
+    }
+
+    .loginPage .featureIndex {
+      background: #315f52;
+      color: #fff;
+      border-color: rgba(49,95,82,.20);
+    }
+
+    .loginPage .authCardWrap {
+      background: #fff;
+    }
+
+    .loginPage .authCard {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 22px;
+      box-shadow: 0 18px 38px rgba(15,23,42,.08);
+      color: #111827;
+    }
+
+    .loginPage .kicker {
+      color: #315f52;
+    }
+
+    .loginPage input,
+    .loginPage textarea {
+      background: #f9fafb;
+      border-color: #d1d5db;
+      color: #111827;
+      border-radius: 14px;
+    }
+
+    .loginPage input::placeholder {
+      color: #94a3b8;
+    }
+
+    .loginPage input:focus,
+    .loginPage textarea:focus {
+      background: #fff;
+      border-color: #315f52;
+      box-shadow: 0 0 0 4px rgba(49,95,82,.14);
+    }
+
+    .loginPage .passwordToggle {
+      background: #fff;
+      border-color: #d1d5db;
+      color: #475569;
+    }
+
+    .loginPage .passwordToggle:hover {
+      background: #e9f3ef;
+      border-color: rgba(49,95,82,.28);
+      color: #315f52;
+    }
+
+    .loginPage .rememberChoice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: -2px 0 18px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .loginPage .rememberChoice input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      appearance: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      background: #fff;
+      display: inline-grid;
+      place-content: center;
+      accent-color: #315f52;
+      box-shadow: none;
+      transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .loginPage .rememberChoice input::after {
+      content: "";
+      width: 5px;
+      height: 9px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) scale(0);
+      transform-origin: center;
+      transition: transform .12s ease;
+      margin-top: -1px;
+    }
+
+    .loginPage .rememberChoice input:checked {
+      background: #315f52;
+      border-color: #315f52;
+      box-shadow: 0 0 0 3px rgba(49,95,82,.14);
+    }
+
+    .loginPage .rememberChoice input:checked::after {
+      transform: rotate(45deg) scale(1);
+    }
+
+    .loginPage .rememberChoice input:focus-visible {
+      outline: none;
+      border-color: #315f52;
+      box-shadow: 0 0 0 4px rgba(49,95,82,.18);
+    }
+
+    .loginPage .rememberChoice span {
+      line-height: 1.3;
+    }
+
+    .loginPage .submit {
+      background: linear-gradient(135deg, #315f52, #21483f);
+      color: #fff;
+      box-shadow: 0 14px 26px rgba(49,95,82,.20);
+      border-radius: 14px;
+    }
+
+    .loginPage .submit:hover {
+      box-shadow: 0 18px 32px rgba(49,95,82,.24);
+      filter: none;
+    }
+
+    .loginPage .linkCard {
+      background: #f9fafb;
+      border-color: #e5e7eb;
+      color: #111827;
+      border-radius: 16px;
+    }
+
+    .loginPage .linkCard:hover {
+      background: #eef7f3;
+      border-color: rgba(49,95,82,.28);
+    }
+
+    .loginPage .linkArrow {
+      color: #315f52;
+    }
+
+    .loginPage .msgBox.error {
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: #991b1b;
+    }
+
+    @media (max-width: 980px) {
+      .loginPage .authBrand {
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+      }
+    }
+  </style>
+</head>
+<body class="loginPage">
+  <main class="authPage">
+    <section class="authShell">
+      <aside class="authBrand">
+        <div class="brandTop">
+          <div class="logo"></div>
+          <div>
+            <h1>DESD Bristol Food Network</h1>
+            <p>Authentication Portal</p>
+          </div>
+        </div>
+
+        <div class="eyebrow">Account Access</div>
+        <h2>Sign in to continue using the network.</h2>
+        <p class="lede">
+          Access producer dashboards, customer ordering tools, and the wider marketplace from the same platform.
+        </p>
+
+        <ul class="featureList">
+          <li><span class="featureIndex">1</span><div>Use your username or registered email address to sign in.</div></li>
+          <li><span class="featureIndex">2</span><div>Customers are redirected to discovery and checkout, while producers are sent to incoming orders.</div></li>
+          <li><span class="featureIndex">3</span><div>Registration links remain available if you need a customer or producer account.</div></li>
+        </ul>
+      </aside>
+
+      <section class="authCardWrap">
+        <div class="authCard">
+          <p class="kicker">Welcome Back</p>
+          <h3>Sign in</h3>
+          <p class="subtext">Enter your login details to access the Bristol Food Network.</p>
+
+          {% if messages %}
+            <div class="messageStack">
+              {% for m in messages %}
+                <div class="msgBox error">{{ m }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+
+            <div class="field">
+              <label for="identifier">Email or Username</label>
+              <input id="identifier" name="identifier" placeholder="e.g. customer@test.com" required />
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="passwordInputWrap">
+                <input id="password" type="password" name="password" placeholder="Enter your password" required />
+                <button
+                  class="passwordToggle"
+                  type="button"
+                  data-password-toggle
+                  data-target="password"
+                  data-show-aria="Show password"
+                  data-hide-aria="Hide password"
+                  aria-controls="password"
+                  aria-label="Show password"
+                  aria-pressed="false"
+                >
+                  Show
+                </button>
+              </div>
+            </div>
+
+            <label class="rememberChoice" for="remember_me">
+              <input id="remember_me" type="checkbox" name="remember_me" value="1">
+              <span>Remember me</span>
+            </label>
+
+            <button class="submit" type="submit">Sign In</button>
+          </form>
+
+          <div class="linkGrid">
+            <a class="linkCard" href="/accounts/register/customer/">
+              <div>
+                <strong>Register as Customer</strong>
+                <small>Create a shopping account for discovery, checkout, receipts, and reorder flows.</small>
+              </div>
+              <span class="linkArrow">Open</span>
+            </a>
+
+            <a class="linkCard" href="/accounts/register/producer/">
+              <div>
+                <strong>Register as Producer</strong>
+                <small>Create a producer account for product management and incoming order handling.</small>
+              </div>
+              <span class="linkArrow">Open</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+  {% include "accounts/includes/auth_password_script.html" %}
+</body>
+</html>

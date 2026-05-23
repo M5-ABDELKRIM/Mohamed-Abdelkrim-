@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Producer Dashboard &bull; Content</title>
+  <style>
+    {% include "market_orders/includes/producer_theme_styles.html" %}
+
+    .contentGrid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:20px;
+      align-items:start;
+    }
+
+    .contentCard{
+      background:linear-gradient(135deg, #ffffff, #fffaf2);
+      border:1px solid var(--line-soft);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 12px 28px rgba(55,45,34,.06);
+    }
+
+    .contentCard h2{
+      margin:0 0 14px;
+      font-size:24px;
+    }
+
+    .contentRow{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) auto;
+      gap:16px;
+      padding:16px 0;
+      border-top:1px solid var(--line-soft);
+      align-items:start;
+    }
+
+    .contentRow:first-of-type{ border-top:0; padding-top:0; }
+    .contentRow strong{ display:block; font-size:17px; margin-bottom:4px; }
+    .contentRow p{ margin:8px 0 0; color:var(--muted); line-height:1.45; }
+
+    .reviewSection{
+      margin-top:20px;
+      background:var(--surface);
+      border:1px solid var(--line-soft);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 12px 28px rgba(55,45,34,.06);
+    }
+
+    .reviewItem{
+      padding:18px 0;
+      border-top:1px solid var(--line-soft);
+    }
+
+    .reviewItem:first-of-type{ border-top:0; padding-top:0; }
+    .reviewTop{ display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+    .reviewItem textarea{
+      width:100%;
+      min-height:100px;
+      margin-top:12px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px 14px;
+      font:inherit;
+      resize:vertical;
+      background:#fff;
+      color:var(--text);
+    }
+    .reviewItem button{ margin-top:10px; }
+    .emptyState{
+      border:1px dashed var(--line);
+      border-radius:18px;
+      padding:24px;
+      color:var(--muted);
+      background:#fff;
+    }
+    @media(max-width:980px){ .contentGrid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="producerShell">
+    <aside class="producerNav">
+      <div class="brand">
+        <div class="brandLogo">P</div>
+        <div>
+          <h1>Producer Hub</h1>
+          <p>{{ request.user.display_name }}</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Producer navigation">
+        <a href="/orders/producer/"><span class="navIcon">H</span><span>Dashboard</span></a>
+        <a href="/orders/producer/dashboard/"><span class="navIcon">O</span><span>Orders</span></a>
+        <a href="/finance/producer/settlements/"><span class="navIcon">£</span><span>Settlements</span></a>
+        <a href="/producer/products/"><span class="navIcon">P</span><span>Products</span></a>
+        <a class="active" href="{% url 'producer_content_dashboard' %}"><span class="navIcon">C</span><span>Content</span></a>
+        <a href="/admin/"><span class="navIcon">A</span><span>Admin</span></a>
+      </nav>
+
+      <div class="profile">
+        <span class="avatar">{{ request.user.display_name|default:"U"|first|upper }}</span>
+        <span>
+          <strong>{{ request.user.display_name }}</strong><br>
+          <span class="muted">Signed in as producer</span>
+        </span>
+      </div>
+      <form class="sidebarLogout" method="post" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+      </form>
+    </aside>
+
+    <main class="producerMain">
+      <header class="pageHeader">
+        <div>
+          <p class="eyebrow">Content</p>
+          <h1>Recipes and farm stories</h1>
+          <p>Create useful producer content and reply to verified product reviews.</p>
+        </div>
+        <div class="productActions">
+          <a class="linkBtn" href="{% url 'producer_recipe_create' %}">Create recipe</a>
+          <a class="linkBtn secondary" href="{% url 'producer_story_create' %}">Create farm story</a>
+        </div>
+      </header>
+
+      {% if messages %}
+        <div class="messagesWrap">
+          {% for message in messages %}
+            <div class="msg {{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <section class="contentGrid">
+        <div class="contentCard">
+          <h2>Recipes</h2>
+          {% for recipe in recipes %}
+            <article class="contentRow">
+              <div>
+                <strong>{{ recipe.title }}</strong>
+                <span class="pill info">{{ recipe.get_status_display }}</span>
+                <span class="pill">{{ recipe.get_seasonal_tag_display }}</span>
+                <p>{{ recipe.description|truncatechars:150 }}</p>
+                <p>{{ recipe.products.count }} linked product{{ recipe.products.count|pluralize }}</p>
+              </div>
+              <a class="linkBtn secondary" href="{% url 'producer_recipe_edit' recipe.id %}">Edit</a>
+            </article>
+          {% empty %}
+            <div class="emptyState">No recipes yet. Create one to show customers how to use your products.</div>
+          {% endfor %}
+        </div>
+
+        <div class="contentCard">
+          <h2>Farm Stories</h2>
+          {% for story in stories %}
+            <article class="contentRow">
+              <div>
+                <strong>{{ story.title }}</strong>
+                <span class="pill info">{{ story.get_status_display }}</span>
+                <span class="pill">{{ story.get_seasonal_tag_display }}</span>
+                <p>{{ story.summary|truncatechars:160 }}</p>
+              </div>
+              <a class="linkBtn secondary" href="{% url 'producer_story_edit' story.id %}">Edit</a>
+            </article>
+          {% empty %}
+            <div class="emptyState">No farm stories yet. Add one to explain your growing, making, or sourcing process.</div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="reviewSection">
+        <h2 style="margin-top:0;">Review Responses</h2>
+        {% for review in reviews %}
+          <article class="reviewItem">
+            <div class="reviewTop">
+              <div>
+                <strong>{{ review.product.name }}</strong>
+                <div class="muted">{{ review.display_name }} &bull; {{ review.rating }}/5 &bull; {{ review.created_at|date:"d M Y, H:i" }}</div>
+              </div>
+              {% if review.verified_purchase %}<span class="pill ok">Verified purchase</span>{% endif %}
+            </div>
+            {% if review.comment %}<p>{{ review.comment|linebreaksbr }}</p>{% endif %}
+            <form method="post" action="{% url 'producer_respond_review' review.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{% url 'producer_content_dashboard' %}">
+              <textarea name="producer_response" placeholder="Reply to this verified review.">{{ review.producer_response }}</textarea>
+              <button class="linkBtn" type="submit">Save response</button>
+            </form>
+          </article>
+        {% empty %}
+          <div class="emptyState">No reviews on your products yet.</div>
+        {% endfor %}
+      </section>
+    </main>
+  </div>
+</body>
+</html>
