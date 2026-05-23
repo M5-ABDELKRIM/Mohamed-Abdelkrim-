@@ -22,3 +22,7 @@ venv/
 *credentials*.csv
 *account_credentials*.csv
 !demo_restaurant_accounts.csv
+
+# Large coursework datasets excluded from GitHub
+projects/security-data-analytics-portfolio/part2/malware_data.csv
+projects/security-data-analytics-portfolio/part3/CodeCraftersInc/email_data.csv
