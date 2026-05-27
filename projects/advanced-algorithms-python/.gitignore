@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated coursework outputs
+dataset/task1_1/degree_results_fixed.csv
+dataset/task1_2/valid_passwords.csv
+dataset/task1_3/train_routes.csv
+degree_results_fixed.csv
+valid_passwords.csv
+train_routes.csv
+
+# Local editor scratch files
+tempCodeRunnerFile.py
+
+# Large or local-only submission/support files
+*.mp4
+*.exe
+*.whl
+
+# Face image dataset: keep private or replace with a small public sample before publishing.
+dataset/task1_4/known_man.jpg
+dataset/task1_4/imageset/
